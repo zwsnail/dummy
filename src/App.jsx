@@ -2,10 +2,8 @@ import { useState, useEffect } from 'react';
 import './App.css';
 import { Comment } from './components/comment';
 import { Users } from './components/users';
-// import useFetch from './useFetch';
 
 function App() {
-
   // This state is used to store the posts of the active user
   const [posts, setPosts] = useState([]);
   // This state is used to store the details of the active post
@@ -16,22 +14,21 @@ function App() {
   const [postID, setPostID] = useState(10);
 
   const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   // Fetch the posts for a given user ID
   const loadPosts = async (userID = 1) => {
-    const res = await fetch(`https://dummyjson.com/users/${userID}/posts`)
-      .then(res => res.json())
-      .then(data => {
-        setPosts(data.posts);
-        setPostID(data.posts[0].id);
-        loadOnePost(data.posts[0].id);
-        setIsLoading(false);
-      })
-      .catch(error => {
-        setError(error.message);
-        setIsLoading(false);
-      });
+    try {
+      const res = await fetch(`https://dummyjson.com/users/${userID}/posts`);
+      const data = await res.json();
+      setPosts(data.posts);
+      setPostID(data.posts[0].id);
+      loadOnePost(data.posts[0].id);
+      setIsLoading(false);
+    } catch (error) {
+      setError(error.message);
+      setIsLoading(false);
+    }
   }
 
   // Fetch the details of a single post

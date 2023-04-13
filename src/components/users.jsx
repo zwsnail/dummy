@@ -9,20 +9,19 @@ export const Users = (props) => {
     const [activeUserID, setActiveUserID] = useState(1);
 
     const [error, setError] = useState(null);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     // This function loads the users from the API
     const loadUsers = async () => {
-        const res = await fetch(userAPI)
-            .then(res => res.json())
-            .then(data => {
-                setUsers(data.users)
-                setIsLoading(false);
-            })
-            .catch(error => {
-                setError(error.message);
-                setIsLoading(false);
-            });
+        try {
+            const res = await fetch(userAPI);
+            const data = await res.json();
+            setUsers(data.users);
+            setIsLoading(false);
+        } catch (error) {
+            setError(error.message);
+            setIsLoading(false);
+        }
     }
 
     // This function sets the active user ID and calls a function passed from the parent component

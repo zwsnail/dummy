@@ -7,20 +7,10 @@ export const Comment = ({ postID }) => {
     const [comments, setComments] = useState([]);
 
     const [error, setError] = useState(null);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     // Load comments for the given post ID
     const loadComments = async () => {
-        // const res = await fetch(`http://dummyjson.com/comments/post/${postID}`)
-        //     .then(res => res.json())
-        //     .then(data => {
-        //         setComments(data.comments);
-        //         setIsLoading(false);
-        //     })
-        //     .catch(error => {
-        //         setError(error.message);
-        //         setIsLoading(false);
-        //     });
         try {
             const res = await fetch(`http://dummyjson.com/comments/post/${postID}`);
             const data = await res.json();
@@ -30,7 +20,6 @@ export const Comment = ({ postID }) => {
             setError(error.message);
             setIsLoading(false);
         }
-
     }
 
     // Load comments when the component mounts or when the post ID changes
